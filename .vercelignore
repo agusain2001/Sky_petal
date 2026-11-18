@@ -1,0 +1,17 @@
+.git/
+.env*
+!.env.example
+node_modules/
+.next*/
+data/
+qa/
+artifacts/
+test-results/
+playwright-report/
+tests/
+e2e/
+docs/
+*.tsbuildinfo
+*.log
+public/images/*.png
+Sky_Petal_*.md

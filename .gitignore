@@ -1,0 +1,19 @@
+node_modules/
+.next/
+.next-dev/
+.next-cinematic-dev/
+.next-acceptance/
+.next-recovery/
+.env*
+!.env.example
+data/
+test-results/
+playwright-report/
+*.log
+
+# Local build and verification artifacts
+.vercel/
+*.tsbuildinfo
+qa/evidence/
+qa/qa/evidence/
+artifacts/

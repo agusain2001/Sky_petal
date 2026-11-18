@@ -1,0 +1,16 @@
+ALTER TABLE users ADD COLUMN suspended_at TIMESTAMPTZ;
+ALTER TABLE users ADD COLUMN deleted_at TIMESTAMPTZ;
+CREATE TABLE staff_mfa(
+ user_id TEXT PRIMARY KEY REFERENCES users(id), secret TEXT NOT NULL,
+ enabled BOOLEAN NOT NULL DEFAULT false, pending_until TIMESTAMPTZ NOT NULL,
+ last_counter BIGINT NOT NULL DEFAULT -1, recovery_hashes JSONB NOT NULL DEFAULT '[]',
+ created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE staff_session_factors(
+ token_hash TEXT PRIMARY KEY REFERENCES sessions(token_hash) ON DELETE CASCADE,
+ user_id TEXT NOT NULL REFERENCES users(id), verified_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE staff_mfa_limits(user_id TEXT PRIMARY KEY REFERENCES users(id),attempts INTEGER NOT NULL,reset_at TIMESTAMPTZ NOT NULL);
+ALTER TABLE staff_mfa ENABLE ROW LEVEL SECURITY;
+ALTER TABLE staff_session_factors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE staff_mfa_limits ENABLE ROW LEVEL SECURITY;
